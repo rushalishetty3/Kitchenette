@@ -1,0 +1,18 @@
+.container{
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.col1{
+    margin: 10px;
+}
+
+.col2{
+    margin: 10px;
+}
