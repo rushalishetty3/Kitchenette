@@ -8,6 +8,7 @@ from dash.dependencies import Input, Output
 
 from charts.bar_chart1 import BarChart1
 from charts.bar_chart2 import BarChart2
+from charts.bar_chart3 import BarChart3
 from charts.box_plot import BoxPlot
 from charts.word_cloud import Wordcloud
 from dataset.data import data
@@ -72,5 +73,21 @@ class container:
             )
         ], className="col2 shadow p-3 mb-5 bg-white rounded"),
     ], className="row"),
+
+    html.Br(),
+    html.Br(),
+
+    html.Div(children=[
+        html.Div(children=[
+            dbc.Card(
+                dbc.CardBody(
+                    [
+                        html.H3('BAR CHART'),
+                        BarChart3.fig
+                    ]
+                )
+            )
+        ], className="col1 shadow p-3 mb-5 bg-white rounded"),
+    ]),
 
 ], className="container")
