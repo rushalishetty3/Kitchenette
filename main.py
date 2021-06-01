@@ -11,6 +11,7 @@ from charts.bar_chart2 import BarChart2
 from charts.bar_chart3 import BarChart3
 from charts.box_plot import BoxPlot
 from charts.word_cloud import Wordcloud
+from charts.recommendation import Recommendation
 from dataset.data import data
 
 class container:
@@ -40,7 +41,7 @@ class container:
                 dbc.CardBody(
                     [
                         html.H3('BAR CHART'),
-                        BarChart2.fig
+                        BarChart1.fig
                     ]
                 )
             )
@@ -51,28 +52,15 @@ class container:
     html.Br(),
 
     html.Div(children=[
-        html.Div(children=[
-            dbc.Card(
-                dbc.CardBody(
-                    [
-                        html.H3('BAR CHART'),
-                        BarChart1.fig
-                    ]
-                )
+        dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H3("WORD CLOUD"),
+                    html.Img(src=Wordcloud.fig)
+                ]
             )
-        ], className="col1 shadow p-3 mb-5 bg-white rounded"),
-
-        html.Div(children=[
-            dbc.Card(
-                dbc.CardBody(
-                    [
-                        html.H3("WORD CLOUD"),
-                        html.Img(src=Wordcloud.fig)
-                    ]
-                )
-            )
-        ], className="col2 shadow p-3 mb-5 bg-white rounded"),
-    ], className="row"),
+        )
+    ], className="col2 shadow p-3 mb-5 bg-white rounded"),
 
     html.Br(),
     html.Br(),
@@ -84,6 +72,22 @@ class container:
                     [
                         html.H3('BAR CHART'),
                         BarChart3.fig
+                    ]
+                )
+            )
+        ], className="col1 shadow p-3 mb-5 bg-white rounded"),
+    ]),
+
+    html.Br(),
+    html.Br(),
+
+    html.Div(children=[
+        html.Div(children=[
+            dbc.Card(
+                dbc.CardBody(
+                    [
+                        html.H3('BAR CHART'),
+                        Recommendation.fig
                     ]
                 )
             )
