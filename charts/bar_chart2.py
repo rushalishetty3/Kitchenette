@@ -8,8 +8,14 @@ import pandas as pd
 from dataset.data import data
 
 class BarChart2:
+    recipe_list = data.df['name'].unique()
+
+    recipe_list_dict = []
+    for x in recipe_list:
+        recipe_list_dict.append({'label' : x, 'value' : x})
+
     nutrients = ['carbohydrates_g', 'sugars_g', 'fat_g']
-    category = ['side-dish', 'breakfast-and-brunch']
+    recipes = [recipe_list[0],recipe_list[1]]
     daily_nutrients_intake = {
         'carbohydrates_g' : 260,
         'sugars_g' : 90,
@@ -23,69 +29,48 @@ class BarChart2:
         'potassium_mg' : 4700,
     }
 
-    bar_data = data.df.groupby("category").agg({'name':'count',nutrients[0]:'mean',nutrients[1]:'mean',nutrients[2]:'mean'}).reset_index()
-    bar_data = bar_data[bar_data['name']>100]
-
-    category_nutrients = []
-
-    for x in category:
-        category_data = bar_data[bar_data['category']==x]
-        temp = []
-        for y in nutrients:
-            temp.append(category_data[y].to_string(index=False))
-        temp = [float(i) for i in temp]
-        category_nutrients.append(temp)
-
     daily_dose = []
     for x in nutrients:
         if(x.endswith('mg')):
             daily_dose.append(daily_nutrients_intake[x]/1000)
         else: 
             daily_dose.append(daily_nutrients_intake[x])
-
+    
+    recipe_nutrients = []
+    for x in recipes:
+        recipe_data = data.df[data.df['name']==x]
+        temp = []
+        for y in nutrients:
+            temp.append(recipe_data[y].to_string(index=False))
+        temp = [float(i) for i in temp]
+        recipe_nutrients.append(temp)
+        
     figure = go.Figure(data=[
-        go.Bar(name=category[0], x=nutrients, y=category_nutrients[0]),
-        go.Bar(name=category[1], x=nutrients, y=category_nutrients[1]),
+        go.Bar(name=recipes[0], x=nutrients, y=recipe_nutrients[0]),
+        go.Bar(name=recipes[1], x=nutrients, y=recipe_nutrients[1]),
         go.Bar(name='daily intake', x=nutrients, y=daily_dose)
     ])
-
-    # Change the bar mode
-    figure.update_layout(barmode='group')
 
     fig = html.Div(children=[
         html.Div(children=[
             dcc.Dropdown(
                 id = 'bar_dropdown1',
-                options = [
-                    { 'label' : 'Main dish', 'value' : 'main-dish' },
-                    { 'label' : 'Dessert', 'value' : 'desserts' },
-                    { 'label' : 'Drinks', 'value' : 'drinks' },
-                    { 'label' : 'Bread', 'value' : 'bread' },
-                    { 'label' : 'Side dish', 'value' : 'side-dish' },
-                    { 'label' : 'Breakfast and Brunch', 'value' : 'breakfast-and-brunch' },
-                ],
+                options = recipe_list_dict,
                 optionHeight = 25,
-                value = 'side-dish',
+                value = recipe_list[0],
                 disabled = False,
                 multi = False,
                 searchable = True,
                 search_value = '',
                 placeholder = 'Select...',
                 clearable = False,
-                style = { 'width' : "95%" }
+                style = { 'width' : "95%" },
             ),
             dcc.Dropdown(
                 id = 'bar_dropdown2',
-                options = [
-                    { 'label' : 'Main dish', 'value' : 'main-dish' },
-                    { 'label' : 'Dessert', 'value' : 'desserts' },
-                    { 'label' : 'Drinks', 'value' : 'drinks' },
-                    { 'label' : 'Bread', 'value' : 'bread' },
-                    { 'label' : 'Side dish', 'value' : 'side-dish' },
-                    { 'label' : 'Breakfast and Brunch', 'value' : 'breakfast-and-brunch' },
-                ],
+                options = recipe_list_dict,
                 optionHeight = 25,
-                value = 'breakfast-and-brunch',
+                value = recipe_list[1],
                 disabled = False,
                 multi = False,
                 searchable = True,

@@ -10,7 +10,6 @@ class BarChart1:
     bar_data = data.df.groupby("category").agg({'name':'count'}).reset_index()
     bar_data = bar_data.rename(columns = {'name':'number of recipes'})
     bar_data = bar_data.sort_values(['number of recipes'], ascending=[True])
-    # print(bar_data)
 
     #category vs no of recipes
     fig = html.Div(children=[

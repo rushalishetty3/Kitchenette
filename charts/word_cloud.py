@@ -15,7 +15,7 @@ from dataset.data import data
 class Wordcloud:
     word_data = data.df[['name','rating','rating_count']]
     word_data['rating_product'] = word_data.rating.mul(word_data.rating_count)
-    word_data_top = word_data.sort_values('rating_product',ascending=False).head(10000)
+    word_data_top = word_data.sort_values('rating_product',ascending=False)
 
     def orange_color_func(word, font_size, position, orientation, random_state=None,**kwargs):
         return "hsl(%d, 100%%, 60%%)" % random.randint(20, 55)

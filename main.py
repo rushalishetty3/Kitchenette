@@ -8,7 +8,6 @@ from dash.dependencies import Input, Output
 
 from charts.bar_chart1 import BarChart1
 from charts.bar_chart2 import BarChart2
-from charts.bar_chart3 import BarChart3
 from charts.box_plot import BoxPlot
 from charts.word_cloud import Wordcloud
 from charts.recommendation import Recommendation
@@ -29,7 +28,7 @@ class container:
             dbc.Card(
                 dbc.CardBody(
                     [
-                        html.H3('BOX PLOT'),
+                        html.H3('Rating Distribution (Box Plot)'),
                         BoxPlot.fig
                     ]
                 )
@@ -40,7 +39,7 @@ class container:
             dbc.Card(
                 dbc.CardBody(
                     [
-                        html.H3('BAR CHART'),
+                        html.H3('Recipe Count (Bar Graph)'),
                         BarChart1.fig
                     ]
                 )
@@ -70,8 +69,8 @@ class container:
             dbc.Card(
                 dbc.CardBody(
                     [
-                        html.H3('BAR CHART'),
-                        BarChart3.fig
+                        html.H3('Nutrients comparison among two recipes and daily intake'),
+                        BarChart2.fig
                     ]
                 )
             )
@@ -86,7 +85,7 @@ class container:
             dbc.Card(
                 dbc.CardBody(
                     [
-                        html.H3('BAR CHART'),
+                        html.H3('Alternate Recipe Recommendation'),
                         Recommendation.fig
                     ]
                 )
