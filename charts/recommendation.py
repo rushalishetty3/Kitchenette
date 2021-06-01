@@ -1,4 +1,5 @@
 import pandas as pd
+import itertools
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
@@ -38,7 +39,7 @@ class Recommendation:
         # sim_scores - (index,cosine value)
         sim_scores = list(enumerate(cosine_similarities[idx]))
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-        sim_scores = sim_scores[0:10]
+        sim_scores = sim_scores[0:11]
 
         recipe_indices = [i[0] for i in sim_scores]
 
@@ -50,23 +51,18 @@ class Recommendation:
         rating = sim_df.loc[name_of_recipe]['rating']
         calories = sim_df.loc[name_of_recipe]['calories']
 
-        print("Rating of {0} = {1}".format(name_of_recipe,rating))
-        print("Calories of {0} = {1}".format(name_of_recipe,calories))
-        print()
-
         sim_df = sim_df.drop(name_of_recipe)
 
         sim_df['score'] = 0.4*(sim_df['rating']/rating) + 0.6*(calories/sim_df['calories'])
         sim_df = sim_df.sort_values('score', ascending = False)
 
-        # sim_df['name'] = sim_df.index
         sim_df = sim_df.reset_index()
         sim_df_merge = pd.merge(sim_df, data.df, on='name')
         sim_df_merge = sim_df_merge[['name','url','rating_x','calories_x']]
 
-        print(sim_df_merge.head())
+        return sim_df_merge, [rating,calories]
 
-    trends = []
+    sim_recipe_list = []
 
     fig = html.Div(children=[
         html.Div(children=[
@@ -89,9 +85,10 @@ class Recommendation:
 
         html.Br(),
 
-        html.Ul(
+        html.Div(
             id="alternate_recipes",
-            children=[html.Li(i) 
-            for i in trends]
+            children=[
+                sim_recipe_list
+            ]
         )
     ])

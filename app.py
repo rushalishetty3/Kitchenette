@@ -131,10 +131,36 @@ def update_barchart(selected_value1,selected_value2,selected_value3):
     Input(component_id='bar_dropdown7', component_property='value')
 )  
 def recommend_alternative(value):
-    trends = ['a','b','c']
-    print(Recommendation.score_cal(value))
+    sim_recipes, current_details = Recommendation.score_cal(value)
+    sim_list = sim_recipes.values.tolist()
 
-    return trends
+    sim_recipe_list = []
+
+    table_header = [
+        html.Thead(html.Tr([html.Th("Name"), html.Th("Link"), html.Th("Ratings"), html.Th("Calories")]))
+    ]
+
+    for x in sim_list:
+        sim_recipe_list.append(
+            html.Tr([
+                html.Td(x[0]), 
+                html.Td(html.A(children="Link",href=x[1])),
+                html.Td(x[2]),
+                html.Td(x[3])
+            ])
+        )
+
+    table_body = [html.Tbody(sim_recipe_list)]
+
+    table = html.Div(
+        children=[
+            html.P("{0}: rating({1}) and calories({2})".format(value,current_details[0],current_details[1])),
+            dbc.Table(table_header + table_body, bordered=False)
+        ]
+    )
+    
+    # dbc.Table(table_header + table_body, bordered=False)
+    return table
 
 if __name__ == '__main__':
     app.run_server(debug=True)
