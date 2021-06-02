@@ -16,18 +16,9 @@ class BarChart2:
 
     nutrients = ['carbohydrates_g', 'sugars_g', 'fat_g']
     recipes = [recipe_list[0],recipe_list[1]]
-    daily_nutrients_intake = {
-        'carbohydrates_g' : 260,
-        'sugars_g' : 90,
-        'fat_g' : 70,
-        'protein_g' : 50,
-        'dietary_fiber_g' : 25,
-        'sodium_mg' : 2300,
-        'calcium_mg' : 1000,
-        'iron_mg' : 14.8,
-        'magnesium_mg' : 400,
-        'potassium_mg' : 4700,
-    }
+
+    nutrients_df = data.nutrients_df
+    daily_nutrients_intake = dict(zip(nutrients_df['nutrients'], nutrients_df['men']))
 
     daily_dose = []
     for x in nutrients:
@@ -90,7 +81,6 @@ class BarChart2:
                 { 'label' : 'Sugar', 'value' : 'sugars_g' },
                 { 'label' : 'Fat', 'value' : 'fat_g' },
                 { 'label' : 'Protein', 'value' : 'protein_g' },
-                { 'label' : 'Fiber', 'value' : 'dietary_fiber_g' },
                 { 'label' : 'Sodium', 'value' : 'sodium_mg' },
                 { 'label' : 'Calcium', 'value' : 'calcium_mg'},
                 { 'label' : 'Iron', 'value' : 'iron_mg'},
@@ -106,6 +96,26 @@ class BarChart2:
             placeholder = 'Select...',
             clearable = False,
             style = { 'width' : "95%" }
+        ),
+
+        html.Br(),
+
+        dcc.Dropdown(
+            id = 'bar_dropdown5',
+            options = [
+                { 'label' : 'Men', 'value' : 'men'},
+                { 'label' : 'Women', 'value' : 'women' },
+                { 'label' : 'Child', 'value' : 'child' },
+            ],
+            optionHeight = 25,
+            value = 'men',
+            disabled = False,
+            multi = False,
+            searchable = True,
+            search_value = '',
+            placeholder = 'Select category..',
+            clearable = False,
+            style = { 'width' : "50%" }
         ),
 
         html.Br(),

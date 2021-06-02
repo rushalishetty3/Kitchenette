@@ -24,24 +24,14 @@ app.layout = container.layout
 # interactive bar chart
 @app.callback(
     Output(component_id='bar_graph2', component_property='figure'),
-    [Input(component_id='bar_dropdown1', component_property='value'),Input(component_id='bar_dropdown2', component_property='value'),Input(component_id='bar_dropdown3', component_property='value')]
+    [Input(component_id='bar_dropdown1', component_property='value'),Input(component_id='bar_dropdown2', component_property='value'),Input(component_id='bar_dropdown3', component_property='value'),Input(component_id='bar_dropdown5', component_property='value'),]
 )
-def update_barchart(selected_value1,selected_value2,selected_value3):
+def update_barchart(selected_value1,selected_value2,selected_value3,selected_value4):
     nutrients = selected_value3
     recipes = [selected_value1, selected_value2]
 
-    daily_nutrients_intake = {
-        'carbohydrates_g' : 260,
-        'sugars_g' : 90,
-        'fat_g' : 70,
-        'protein_g' : 50,
-        'dietary_fiber_g' : 25,
-        'sodium_mg' : 2300,
-        'calcium_mg' : 1000,
-        'iron_mg' : 14.8,
-        'magnesium_mg' : 400,
-        'potassium_mg' : 4700,
-    }
+    nutrients_df = data.nutrients_df
+    daily_nutrients_intake = dict(zip(nutrients_df['nutrients'], nutrients_df[selected_value4]))
 
     daily_dose = []
     for x in nutrients:
