@@ -17,10 +17,6 @@ class container:
     layout = html.Div(children=[
     html.H1(children='All Recipes'),
 
-    html.Div(children='''
-        Charts
-    '''),
-
     html.Br(),
 
     html.Div(children=[
