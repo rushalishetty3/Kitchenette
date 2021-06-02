@@ -18,7 +18,7 @@ class BarChart2:
     recipes = [recipe_list[0],recipe_list[1]]
 
     nutrients_df = data.nutrients_df
-    daily_nutrients_intake = dict(zip(nutrients_df['nutrients'], nutrients_df['men']))
+    daily_nutrients_intake = dict(zip(nutrients_df['nutrients'], nutrients_df['value']))
 
     daily_dose = []
     for x in nutrients:
@@ -86,6 +86,9 @@ class BarChart2:
                 { 'label' : 'Iron', 'value' : 'iron_mg'},
                 { 'label' : 'Magnesium', 'value' : 'magnesium_mg'},
                 { 'label' : 'Potassium', 'value' : 'potassium_mg'},
+                { 'label' : 'Cholestrol', 'value' : 'cholesterol_mg'},
+                { 'label' : 'Zinc', 'value' : 'zinc_mg'},
+                { 'label' : 'Phosphorous', 'value' : 'phosphorus_mg'},
             ],
             optionHeight = 25,
             value = nutrients,
@@ -96,26 +99,6 @@ class BarChart2:
             placeholder = 'Select...',
             clearable = False,
             style = { 'width' : "95%" }
-        ),
-
-        html.Br(),
-
-        dcc.Dropdown(
-            id = 'bar_dropdown5',
-            options = [
-                { 'label' : 'Men', 'value' : 'men'},
-                { 'label' : 'Women', 'value' : 'women' },
-                { 'label' : 'Child', 'value' : 'child' },
-            ],
-            optionHeight = 25,
-            value = 'men',
-            disabled = False,
-            multi = False,
-            searchable = True,
-            search_value = '',
-            placeholder = 'Select category..',
-            clearable = False,
-            style = { 'width' : "50%" }
         ),
 
         html.Br(),
