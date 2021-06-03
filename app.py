@@ -32,35 +32,42 @@ external_stylesheets = [
         'rel': "stylesheet"
     }
 ]
-app = dash.Dash(__name__,prevent_initial_callbacks=True,external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, prevent_initial_callbacks=True,
+                external_stylesheets=external_stylesheets)
 
 app.layout = container.layout
 
 # interactive bar chart
+
+
 @app.callback(
     Output(component_id='bar_graph2', component_property='figure'),
-    [Input(component_id='bar_dropdown1', component_property='value'),Input(component_id='bar_dropdown2', component_property='value'),Input(component_id='bar_dropdown3', component_property='value')]
+    [Input(component_id='bar_dropdown1', component_property='value'), Input(component_id='bar_dropdown2',
+                                                                            component_property='value'), Input(component_id='bar_dropdown3', component_property='value')]
 )
-def update_barchart(selected_value1,selected_value2,selected_value3):
+def update_barchart(selected_value1, selected_value2, selected_value3):
     nutrients = selected_value3
     recipes = [selected_value1, selected_value2]
 
     nutrients_df = data.nutrients_df
-    daily_nutrients_intake = dict(zip(nutrients_df['nutrients'], nutrients_df['value']))
+    daily_nutrients_intake = dict(
+        zip(nutrients_df['nutrients'], nutrients_df['value']))
 
     daily_dose = []
     for x in nutrients:
         if(x.endswith('mg')):
             daily_dose.append(daily_nutrients_intake[x]/1000)
-        else: 
+        else:
             daily_dose.append(daily_nutrients_intake[x])
 
     recipe_nutrients = []
     for x in recipes:
-        recipe_data = data.df[data.df['name']==x]
+        recipe_data = data.df[data.df['name'] == x]
         temp = []
         for y in nutrients:
-            if(y.endswith('mg')):
+            if y == ' ':
+                temp.append(0.0)
+            elif(y.endswith('mg')):
                 temp.append(float(recipe_data[y].to_string(index=False))/1000)
             else:
                 temp.append(float(recipe_data[y].to_string(index=False)))
@@ -75,10 +82,11 @@ def update_barchart(selected_value1,selected_value2,selected_value3):
 
     return figure
 
+
 @app.callback(
     Output(component_id='alternate_recipes', component_property='children'),
     Input(component_id='bar_dropdown7', component_property='value')
-)  
+)
 def recommend_alternative(value):
     sim_recipes, current_details = Recommendation.score_cal(value)
     sim_list = sim_recipes.values.tolist()
@@ -86,29 +94,31 @@ def recommend_alternative(value):
     sim_recipe_list = []
 
     table_header = [
-        html.Thead(html.Tr([html.Th("Name"), html.Th("Link"), html.Th("Ratings"), html.Th("Calories")]))
+        html.Thead(html.Tr([html.Th("Rank"), html.Th("Recipe"),
+                   html.Th("Rating"), html.Th("Calories"), ]))
     ]
 
-    for x in sim_list:
+    for i, x in enumerate(sim_list):
         sim_recipe_list.append(
             html.Tr([
-                html.Td(x[0]), 
-                html.Td(html.A(children="Link",href=x[1])),
+                html.Td(i+1),
+                html.Td(html.A(x[0], href=x[1])),
                 html.Td(x[2]),
-                html.Td(x[3])
+                html.Td(x[3]),
             ])
         )
 
     table_body = [html.Tbody(sim_recipe_list)]
 
-    table = html.Div(
-        children=[
-            html.P("{0}: rating({1}) and calories({2})".format(value,current_details[0],current_details[1])),
-            dbc.Table(table_header + table_body, bordered=False)
-        ]
-    )
-    
+    table = html.Div([
+        html.P("{0} rated {1} and has {2} calories".format(
+            value, current_details[0], current_details[1])),
+
+        dbc.Table(table_header + table_body, bordered=False)
+    ])
+
     return table
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
