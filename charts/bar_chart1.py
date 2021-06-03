@@ -15,6 +15,12 @@ class BarChart1:
     fig = html.Div(children=[
         dcc.Graph(
             id='bar_graph1',
-            figure=px.bar(data_frame=bar_data[bar_data['number of recipes']>100], x="number of recipes", y="category", orientation= "h")
+            figure=px.bar(
+                data_frame=bar_data[bar_data['number of recipes']>100], 
+                x="number of recipes", 
+                y="category", 
+                orientation= "h",
+                width=600,
+                )
         )
     ])

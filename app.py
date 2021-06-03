@@ -17,7 +17,22 @@ from dataset.data import data
 
 from charts.recommendation import Recommendation
 
-app = dash.Dash(__name__,prevent_initial_callbacks=True,external_stylesheets=[dbc.themes.BOOTSTRAP])
+external_stylesheets = [
+    # dbc.themes.BOOTSTRAP,
+    {
+        'href': 'https://fonts.googleapis.com/icon?family=Material+Icons',
+        'rel': 'stylesheet'
+    },
+    {
+        'rel': "preconnect",
+        'href': "https://fonts.gstatic.com"
+    },
+    {
+        'href': "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",
+        'rel': "stylesheet"
+    }
+]
+app = dash.Dash(__name__,prevent_initial_callbacks=True,external_stylesheets=external_stylesheets)
 
 app.layout = container.layout
 

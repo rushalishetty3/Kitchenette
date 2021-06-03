@@ -64,8 +64,8 @@ class Recommendation:
 
     sim_recipe_list = []
 
-    fig = html.Div(children=[
-        html.Div(children=[
+    fig = html.Div([
+        html.Div([
             dcc.Dropdown(
                 id = 'bar_dropdown7',
                 options = recipe_list_dict,
@@ -75,15 +75,11 @@ class Recommendation:
                 multi = False,
                 searchable = True,
                 search_value = '',
-                placeholder = 'Select...',
-                clearable = False,
-                style = { 'width' : "75%" },
+                placeholder = 'Search a recipe!',
+                clearable = True,
+                style = { 'width' : "400px" },
             ),
         ]),
-
-        html.Br(),
-
-        html.Br(),
 
         html.Div(
             id="alternate_recipes",
